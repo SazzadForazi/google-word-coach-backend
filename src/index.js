@@ -1,17 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+const express = require('express');
+const { MongoClient } = require('mongodb');
+const cors = require('cors');
+const ObjectId = require('mongodb').ObjectId;
+const app = express();
+const port = 5000;
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+app.use(cors());
+app.use(express.json());
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+//user:question-bank
+//pass: syN02llc0WlKpP1j
+
+const uri = "mongodb+srv://question-bank:syN02llc0WlKpP1j@cluster0.qimng.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+async function run() {
+  try {
+    await client.connect();
+
+  } finally {
+    // await client.close();
+  }
+}
+run().catch(console.dir);
+
+app.get('/', (req, res) => {
+  res.send("data Server has been Connected")
+});
+app.listen(port, () => {
+  console.log("Running Server on Port", port);
+})
